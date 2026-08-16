@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #3b82f6;
+  --secondary: #1e293b;
+  --primary-hover: #2563eb;
+  --accent: #10b981;
+  --bg-main: #f8fafc;
+  --surface: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border: #f1f5f9;
+}
+
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
+  --color-border-subtle: var(--border);
+  --font-sans: 'Inter', 'Outfit', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    @apply antialiased scroll-smooth;
+    font-size: 16px;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-800 leading-relaxed tracking-tight;
+  }
+}
+
+
+.text-title {
+  @apply text-xl md:text-2xl font-bold text-slate-800 tracking-tight;
+}
+
+.text-subtitle {
+  @apply text-slate-400 text-xs md:text-sm font-medium mt-1;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom Utilities */
+.text-outline {
+  -webkit-text-stroke: 1px rgba(15, 23, 42, 0.1);
+  color: transparent;
+}
+
+@keyframes wiggle {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-1.5deg) translateX(-1px);
+  }
+
+  75% {
+    transform: rotate(1.5deg) translateX(1px);
+  }
+}
+
+.animate-wiggle-once {
+  animation: wiggle 0.4s ease-in-out;
+}
+
+.animate-wiggle {
+  animation: wiggle 0.4s ease-in-out infinite;
+}
+
+/* ── Receipt: hidden from UI but renderable ─────────── */
+.receipt-offscreen {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 80mm;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media print {
+  .receipt-offscreen {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 1000 !important;
+  }
+}
+
+/* ── Thermal Print Styles ────────────────────────────── */
+@media print {
+  /* Hide all UI elements except those we explicitly show */
+  html, body, #root {
+    visibility: hidden !important;
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* Make the receipt container visible and position it correctly */
+  .receipt-offscreen,
+  .printable-receipt {
+    visibility: visible !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 72mm !important; /* 82mm roll minus safe margins */
+    max-width: 100% !important;
+    opacity: 1 !important;
+    display: block !important;
+    z-index: 9999 !important;
+    background: white !important;
+  }
+
+  .printable-receipt * {
+    visibility: visible !important;
+  }
+
+  /* Force standard thermal fonts and spacing */
+  .printable-receipt {
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 11px !important;
+    line-height: 1.1 !important;
+    color: black !important;
+  }
+
+  /* Standard 80mm roll setup */
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+}
+
+.receipt-font {
+  font-family: 'Courier New', Courier, monospace;
+}
