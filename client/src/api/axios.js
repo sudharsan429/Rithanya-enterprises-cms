@@ -1,7 +1,7 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const apiBaseUrl = 'https://rithanya-enterprises-cms.onrender.com/api';
 
 const api = axios.create({
   baseURL: apiBaseUrl,
