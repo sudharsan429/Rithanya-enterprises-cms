@@ -43,6 +43,18 @@ const connectDB = async () => {
       console.log('Connecting to MongoDB...');
       await mongoose.connect(mongoUri);
       console.log('Connected to MongoDB successfully!');
+      const User = require('./models/User');
+
+if (!(await User.findOne({ email: 'admin@rithanya.com' }))) {
+  await User.create({
+    name: 'System Superadmin',
+    email: 'admin@rithanya.com',
+    password: '123456',
+    role: 'superadmin'
+  });
+
+  console.log('Default superadmin created!');
+}
     } else {
       console.log('Starting temporary In-Memory MongoDB...');
       const { MongoMemoryServer } = require('mongodb-memory-server');
